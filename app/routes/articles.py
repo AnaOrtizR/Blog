@@ -119,3 +119,12 @@ def searchCatArticle():
                 return jsonify({"message": "No hay coincidencias"}), 404
         return jsonify({"message":"No se proporcionó una categoría"}),400
     return jsonify({"message": "No se proporcionó una palabra"}), 400
+
+@articles_bp.route('/delete/<int:id>', methods=['DELETE'])
+def delete_Article(id):
+    article = Article.query.get(id)
+    if not article:
+        return jsonify ({"error":"Article not found"}),404
+    db.session.delete(article)
+    db.session.commit()
+    return jsonify ({"Message":"Article deleted successfully"})
